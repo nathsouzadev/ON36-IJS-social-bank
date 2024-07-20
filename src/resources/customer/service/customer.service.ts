@@ -11,57 +11,55 @@ import { UpdateAccountDto } from '../../../resources/accounts/dto/update-account
 export class CustomerService {
   db = database;
 
-  constructor(
-    private readonly accountService: AccountsService
-  ) {}
+  constructor(private readonly accountService: AccountsService) {}
 
   private validateCustomer = (id: string): number => {
-    const index = this.db.findIndex((customer) => customer.id === id)
+    const index = this.db.findIndex((customer) => customer.id === id);
     if (index === -1) {
-      throw new NotFoundException('Customer not found')
-    }  
-    
-    return index
-  }
+      throw new NotFoundException('Customer not found');
+    }
+
+    return index;
+  };
 
   create(customerDto: CustomerDto) {
-    const customer = new Customer(new People(customerDto))
-    this.db.push(customer)
-    return { customer }
+    const customer = new Customer(new People(customerDto));
+    this.db.push(customer);
+    return { customer };
   }
 
   get = (id: string) => {
-    const customer = this.db.find((customer) => customer.id === id)
-    return { customer }
-  }
+    const customer = this.db.find((customer) => customer.id === id);
+    return { customer };
+  };
 
   createAccount = (accountDto: AccountDto) => {
-    const customerIndex = this.validateCustomer(accountDto.customerId)
+    const customerIndex = this.validateCustomer(accountDto.customerId);
     const account = this.accountService.create({
       ...accountDto,
-      customerIndex
-    })
+      customerIndex,
+    });
 
-    return account
-  }
+    return account;
+  };
 
   updateAccount = (accountDto: UpdateAccountDto) => {
-    const customerIndex = this.validateCustomer(accountDto.customerId)
+    const customerIndex = this.validateCustomer(accountDto.customerId);
     const account = this.accountService.update({
       ...accountDto,
-      customerIndex
-    })
+      customerIndex,
+    });
 
-    return account
-  }
+    return account;
+  };
 
   deleteAccount = (accountId: string, customerId: string) => {
-    const customerIndex = this.validateCustomer(customerId)
-    const response = this.accountService.delete(accountId, customerIndex)
+    const customerIndex = this.validateCustomer(customerId);
+    const response = this.accountService.delete(accountId, customerIndex);
 
     return {
       response,
-      customer: this.db[customerIndex]
-    }
-  }
+      customer: this.db[customerIndex],
+    };
+  };
 }
