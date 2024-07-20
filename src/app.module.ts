@@ -21,7 +21,7 @@ import { AccountsModule } from './resources/accounts/accounts.module';
     HealthModule,
     PeopleModule,
     CustomerModule,
-    AccountsModule
+    AccountsModule,
   ],
 })
 export class AppModule implements NestModule {

@@ -5,6 +5,7 @@ import { People } from '../../../resources/people/entities/person.entity';
 import { Customer } from '../entities/customer.entity';
 import { AccountDto } from '../../../resources/accounts/dto/create-account.dto';
 import { AccountsService } from '../../../resources/accounts/accounts.service';
+import { UpdateAccountDto } from '../../../resources/accounts/dto/update-account.dto';
 
 @Injectable()
 export class CustomerService {
@@ -29,6 +30,16 @@ export class CustomerService {
   createAccount = (accountDto: AccountDto) => {
     const customerIndex = this.db.findIndex((customer) => customer.id === accountDto.customerId)
     const account = this.accountService.create({
+      ...accountDto,
+      customerIndex
+    })
+
+    return account
+  }
+
+  updateAccount = (accountDto: UpdateAccountDto) => {
+    const customerIndex = this.db.findIndex((customer) => customer.id === accountDto.customerId)
+    const account = this.accountService.update({
       ...accountDto,
       customerIndex
     })
