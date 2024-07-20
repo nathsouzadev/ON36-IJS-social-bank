@@ -1,10 +1,11 @@
 import { randomUUID } from 'crypto';
 import { People } from '../../../resources/people/entities/person.entity';
+import { Account } from '../../../resources/accounts/entities/account.entity';
 
 export class Customer {
   id: string;
   people: People;
-  accounts: any[];
+  accounts: Account[];
 
   constructor(people: People) {
     this.id = randomUUID();

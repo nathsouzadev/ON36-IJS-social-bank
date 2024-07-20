@@ -9,6 +9,7 @@ import { LoggerMiddleware } from './config/logger-middleware';
 import { PeopleModule } from './resources/people/people.module';
 import { CustomerModule } from './resources/customer/customer.module';
 import { AccountsModule } from './resources/accounts/accounts.module';
+import { ManagerModule } from './manager/manager.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { AccountsModule } from './resources/accounts/accounts.module';
     PeopleModule,
     CustomerModule,
     AccountsModule,
+    ManagerModule,
   ],
 })
 export class AppModule implements NestModule {
