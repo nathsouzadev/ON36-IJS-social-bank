@@ -12,6 +12,16 @@ export class ManagerService {
 
   constructor(private readonly customerService: CustomerService) {}
 
+  private validateManager = (id: string): void => {
+    const validateManager = this.db.find(
+      (customer) => customer.managerId === id,
+    );
+
+    if (!validateManager) {
+      throw new NotFoundException('Manager not found');
+    }
+  };
+
   create(createManagerDto: CreateManagerDto) {
     const manager = new Manager(new People(createManagerDto));
     this.db.push(manager);
@@ -19,16 +29,21 @@ export class ManagerService {
     return { manager };
   }
 
-  updateAccount(managerId: string, accountDto: UpdateAccountDto) {
-    const validateManager = this.db.find(
-      (customer) => customer.managerId === managerId,
-    );
-
-    if (!validateManager) {
-      throw new NotFoundException('Manager not found');
-    }
+  updateCustomerAccount(managerId: string, accountDto: UpdateAccountDto) {
+    this.validateManager(managerId);
 
     const response = this.customerService.updateAccount(accountDto);
+    return response;
+  }
+
+  deleteCustomerAccount(
+    managerId: string,
+    customerId: string,
+    accountId: string,
+  ) {
+    this.validateManager(managerId);
+
+    const response = this.customerService.deleteAccount(accountId, customerId);
     return response;
   }
 }
