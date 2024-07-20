@@ -1,15 +1,38 @@
 import { Injectable } from '@nestjs/common';
-import { CreateCustomerDto } from '../dto/create-customer.dto';
+import { CustomerDto } from '../dto/create-customer.dto';
 import { database } from '../../../config/db/db';
 import { People } from '../../../resources/people/entities/person.entity';
 import { Customer } from '../entities/customer.entity';
+import { AccountDto } from '../../../resources/accounts/dto/create-account.dto';
+import { AccountsService } from '../../../resources/accounts/accounts.service';
 
 @Injectable()
 export class CustomerService {
   db = database;
 
-  create(createCustomerDto: CreateCustomerDto) {
-    const customer = new Customer(new People(createCustomerDto))
+  constructor(
+    private readonly accountService: AccountsService
+  ) {}
+
+  create(customerDto: CustomerDto) {
+    const customer = new Customer(new People(customerDto))
+    this.db.push(customer)
     return { customer }
+  }
+
+  get = (id: string) => {
+    console.log('DATABASE', this.db)
+    const customer = this.db.find((customer) => customer.id === id)
+    return { customer }
+  }
+
+  createAccount = (accountDto: AccountDto) => {
+    const customerIndex = this.db.findIndex((customer) => customer.id === accountDto.customerId)
+    const account = this.accountService.create({
+      ...accountDto,
+      customerIndex
+    })
+
+    return account
   }
 }
