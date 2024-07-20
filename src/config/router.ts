@@ -11,11 +11,11 @@ export const router = [
         module: HealthModule,
       },
       {
-        path: 'customers',
+        path: 'customer',
         module: CustomerModule
       },
       {
-        path: 'managers',
+        path: 'manager',
         module: ManagerModule
       }
     ],

@@ -60,7 +60,6 @@ WIP
 [x] delete account
 
 /manager
-[] create manager
-[] create account
+[x] create manager
 [] update account type
 [] delete account
