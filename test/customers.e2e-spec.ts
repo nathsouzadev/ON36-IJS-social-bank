@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
+import { randomUUID } from 'crypto';
 
 
 describe('HealthController (e2e)', () => {
@@ -18,7 +19,7 @@ describe('HealthController (e2e)', () => {
 
   it('create customer', async () => {
     return request(app.getHttpServer())
-      .post('/api/customers')
+      .post('/api/customer')
       .send({
         name: 'Ada Lovelace',
         email: 'ada@idiomaparatodos.com.br',
@@ -26,6 +27,7 @@ describe('HealthController (e2e)', () => {
         phoneNumber: '+5511123456789',
         cpf: '12345678900',
         birthdate: '1815-12-10',
+        managerId: randomUUID(),
       })
       .expect(201)
       .then(async (response) => {
@@ -41,7 +43,8 @@ describe('HealthController (e2e)', () => {
               phoneNumber: '+5511123456789',
               cpf: '12345678900',
               birthdate: '1815-12-10',
-            }
+            },
+            managerId: expect.any(String),
           }
         });
       });
