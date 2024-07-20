@@ -5,4 +5,5 @@ export class CustomerDto {
   phoneNumber: string;
   cpf: string;
   birthdate: string;
+  managerId: string;
 }

@@ -23,7 +23,10 @@ export class CustomerService {
   };
 
   create(customerDto: CustomerDto) {
-    const customer = new Customer(new People(customerDto));
+    const customer = new Customer(
+      new People(customerDto),
+      customerDto.managerId,
+    );
     this.db.push(customer);
     return { customer };
   }

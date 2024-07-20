@@ -9,7 +9,7 @@ import { LoggerMiddleware } from './config/logger-middleware';
 import { PeopleModule } from './resources/people/people.module';
 import { CustomerModule } from './resources/customer/customer.module';
 import { AccountsModule } from './resources/accounts/accounts.module';
-import { ManagerModule } from './manager/manager.module';
+import { ManagerModule } from './resources/manager/manager.module';
 
 @Module({
   imports: [
