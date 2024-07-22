@@ -58,7 +58,7 @@ export class ManagerService {
     const managerIndex = updatedDb.findIndex(
       (manager) => manager.id === managerId,
     );
-    updatedDb[managerIndex].customers.push(response.customer.id);
+    updatedDb[managerIndex]['customers'].push(response.customer);
     this.db = updatedDb;
 
     return response;

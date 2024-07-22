@@ -17,27 +17,4 @@ export class Account {
     this.interestRate = 0.02;
     this.overdraftLimit = data.type === 'current' ? 1000 : 0;
   }
-
-  validateOverdraftLimit(amount: number) {
-    if (this.balance - amount < -this.overdraftLimit) {
-      throw new Error('Overdraft limit exceeded');
-    }
-  }
-
-  addInterest() {
-    if (this.type === 'savings') {
-      this.balance += this.balance * this.interestRate;
-    }
-  }
-
-  transfer(amount: number, target: Account) {
-    this.validateOverdraftLimit(amount);
-    this.balance -= amount;
-    target.balance += amount;
-  }
-
-  withdraw(amount: number) {
-    this.validateOverdraftLimit(amount);
-    this.balance -= amount;
-  }
 }

@@ -14,6 +14,7 @@ export class CustomerService {
   constructor(private readonly accountService: AccountsService) {}
 
   private validateCustomer = (id: string): number => {
+    console.log(this.db);
     const index = this.db.findIndex((customer) => customer.id === id);
     if (index === -1) {
       throw new NotFoundException('Customer not found');

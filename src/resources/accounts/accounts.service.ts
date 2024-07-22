@@ -11,7 +11,7 @@ export class AccountsService {
   create(createAccountDto: AccountDto) {
     const updatedDb = [...this.db];
     const account = new Account(createAccountDto);
-    updatedDb[createAccountDto.customerIndex].accounts.push(account);
+    updatedDb[createAccountDto.customerIndex]['accounts'].push(account);
     this.db = updatedDb;
 
     return { account };
@@ -19,7 +19,7 @@ export class AccountsService {
 
   update(accountDto: UpdateAccountDto) {
     const updatedDb = [...this.db];
-    const accounts = updatedDb[accountDto.customerIndex].accounts;
+    const accounts = updatedDb[accountDto.customerIndex]['accounts'];
     const accountIndex = accounts.findIndex(
       (account: Account) => account.id === accountDto.accountId,
     );
@@ -32,16 +32,16 @@ export class AccountsService {
     this.db = updatedDb;
 
     return {
-      account: updatedDb[accountDto.customerIndex].accounts[accountIndex],
+      account: updatedDb[accountDto.customerIndex]['accounts'][accountIndex],
     };
   }
 
   delete(accountId: string, customerIndex: number) {
     const updatedDb = [...this.db];
-    const accountsUpdated = updatedDb[customerIndex].accounts.filter(
+    const accountsUpdated = updatedDb[customerIndex]['accounts'].filter(
       (account: Account) => account.id !== accountId,
     );
-    updatedDb[customerIndex].accounts = accountsUpdated;
+    updatedDb[customerIndex]['accounts'] = accountsUpdated;
 
     this.db = updatedDb;
 

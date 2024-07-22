@@ -21,14 +21,6 @@ export class ManagerController {
     return this.managerService.createCustomer(managerId, customerDto);
   }
 
-  @Delete(':managerId/customer/:customerId')
-  deleteCustomer(
-    @Param('managerId') managerId: string,
-    @Param('customerId') customerId: string,
-  ) {
-    return 'delete customer';
-  }
-
   @Patch(':managerId/customer/:customerId/account/:accountId')
   updateCustomerAccount(
     @Param('managerId') managerId: string,
