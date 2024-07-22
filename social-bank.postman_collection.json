@@ -1,0 +1,276 @@
+{
+	"info": {
+		"_postman_id": "cdeea0a9-4394-4aaf-b70f-c70831cd4e2b",
+		"name": "social-bank",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13712409"
+	},
+	"item": [
+		{
+			"name": "customer",
+			"item": [
+				{
+					"name": "create customer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Dorothy Vaughan\",\n    \"email\": \"dorothy@idiomaparatodos.com.br\",\n    \"city\": \"Kansas City\",\n    \"phoneNumber\": \"5511880881234\",\n    \"cpf\": \"12345678901\",\n    \"birthdaydate\": \"1910-09-20\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3005/api/customer",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3005",
+							"path": [
+								"api",
+								"customer"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "manager",
+			"item": [
+				{
+					"name": "create manager",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Katherine Johnson\",\n    \"email\": \"katherine@idiomaparatodos.com.br\",\n    \"city\": \"White Sulphur\",\n    \"phoneNumber\": \"5511880881234\",\n    \"cpf\": \"12345678901\",\n    \"birthdaydate\": \"1918-08-26\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3005/api/manager",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3005",
+							"path": [
+								"api",
+								"manager"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update account",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"savings\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3005/api/manager/76a2237f-1ddc-4aa3-9db7-66f7518b8f28/customer/0c2122f8-9d02-40d6-b84e-dbed3fb1f8a4/account/ac8eede5-80d6-463a-8256-09c41dab5124",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3005",
+							"path": [
+								"api",
+								"manager",
+								"76a2237f-1ddc-4aa3-9db7-66f7518b8f28",
+								"customer",
+								"0c2122f8-9d02-40d6-b84e-dbed3fb1f8a4",
+								"account",
+								"ac8eede5-80d6-463a-8256-09c41dab5124"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete account",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3005/api/76a2237f-1ddc-4aa3-9db7-66f7518b8f28/customer/0c2122f8-9d02-40d6-b84e-dbed3fb1f8a4/account/ac8eede5-80d6-463a-8256-09c41dab5124",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3005",
+							"path": [
+								"api",
+								"76a2237f-1ddc-4aa3-9db7-66f7518b8f28",
+								"customer",
+								"0c2122f8-9d02-40d6-b84e-dbed3fb1f8a4",
+								"account",
+								"ac8eede5-80d6-463a-8256-09c41dab5124"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create customer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Mary Jackson\",\n    \"email\": \"may@idiomaparatodos.com.br\",\n    \"city\": \"Hampton\",\n    \"phoneNumber\": \"5511880881234\",\n    \"cpf\": \"12345678901\",\n    \"birthdaydate\": \"1921-04-09\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3005/api/manager/76a2237f-1ddc-4aa3-9db7-66f7518b8f28/customer",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3005",
+							"path": [
+								"api",
+								"manager",
+								"76a2237f-1ddc-4aa3-9db7-66f7518b8f28",
+								"customer"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "account",
+			"item": [
+				{
+					"name": "create account",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"savings\",\n    \"balance\": 1000\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3005/api/customer/0c2122f8-9d02-40d6-b84e-dbed3fb1f8a4/account",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3005",
+							"path": [
+								"api",
+								"customer",
+								"0c2122f8-9d02-40d6-b84e-dbed3fb1f8a4",
+								"account"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update account",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"savings\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3005/api/customer/0c2122f8-9d02-40d6-b84e-dbed3fb1f8a4/account/ac8eede5-80d6-463a-8256-09c41dab5124",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3005",
+							"path": [
+								"api",
+								"customer",
+								"0c2122f8-9d02-40d6-b84e-dbed3fb1f8a4",
+								"account",
+								"ac8eede5-80d6-463a-8256-09c41dab5124"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete account",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3005/api/customer/0c2122f8-9d02-40d6-b84e-dbed3fb1f8a4/account/ac8eede5-80d6-463a-8256-09c41dab5124",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3005",
+							"path": [
+								"api",
+								"customer",
+								"0c2122f8-9d02-40d6-b84e-dbed3fb1f8a4",
+								"account",
+								"ac8eede5-80d6-463a-8256-09c41dab5124"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
