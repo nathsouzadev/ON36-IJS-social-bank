@@ -26,7 +26,7 @@ export class CustomerController {
     return this.customerService.get(customerId);
   }
 
-  @Post(':customerId/accounts')
+  @Post(':customerId/account')
   addAccount(
     @Param('customerId') customerId: string,
     @Body() accountDto: AccountDto,
@@ -37,7 +37,7 @@ export class CustomerController {
     });
   }
 
-  @Patch(':customerId/accounts/:accountId')
+  @Patch(':customerId/account/:accountId')
   updateAccount(
     @Param('customerId') customerId: string,
     @Param('accountId') accountId: string,
@@ -50,7 +50,7 @@ export class CustomerController {
     });
   }
 
-  @Delete(':customerId/accounts/:accountId')
+  @Delete(':customerId/account/:accountId')
   deleteAccount(
     @Param('customerId') customerId: string,
     @Param('accountId') accountId: string,

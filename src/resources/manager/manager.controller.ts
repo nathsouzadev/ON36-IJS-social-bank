@@ -2,6 +2,7 @@ import { Controller, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { ManagerService } from './service/manager.service';
 import { CreateManagerDto } from './dto/create-manager.dto';
 import { UpdateAccountDto } from '../accounts/dto/update-account.dto';
+import { CustomerDto } from '../customer/dto/create-customer.dto';
 
 @Controller()
 export class ManagerController {
@@ -12,7 +13,23 @@ export class ManagerController {
     return this.managerService.create(createManagerDto);
   }
 
-  @Patch(':managerId/customer/:customerId/accounts/:accountId')
+  @Post(':managerId/customer')
+  addCustomer(
+    @Param('managerId') managerId: string,
+    @Body() customerDto: CustomerDto,
+  ) {
+    return this.managerService.createCustomer(managerId, customerDto);
+  }
+
+  @Delete(':managerId/customer/:customerId')
+  deleteCustomer(
+    @Param('managerId') managerId: string,
+    @Param('customerId') customerId: string,
+  ) {
+    return 'delete customer';
+  }
+
+  @Patch(':managerId/customer/:customerId/account/:accountId')
   updateCustomerAccount(
     @Param('managerId') managerId: string,
     @Param('customerId') customerId: string,
@@ -26,7 +43,7 @@ export class ManagerController {
     });
   }
 
-  @Delete(':managerId/customer/:customerId/accounts/:accountId')
+  @Delete(':managerId/customer/:customerId/account/:accountId')
   deleteCustomerAccount(
     @Param('managerId') managerId: string,
     @Param('customerId') customerId: string,
