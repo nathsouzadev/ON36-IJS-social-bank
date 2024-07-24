@@ -1,55 +1,7 @@
-# Social Bank
+import { Customer } from '../../resources/customer/entities/customer.entity';
+import { Manager } from '../../resources/manager/entities/manager.entity';
 
-Projeto desenvolvido na turma de backend e AWS na Reprograma
-
-## Diagrama do banco
-
-<img src="schema.png" width="500">
-
-## Installation
-
-```bash
-$ npm install
-```
-
-## Running the app
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
-
-## Test
-
-- Import `social-bank.postman_collection.json` to run requests on `postman`
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Routes available
-
-```bash
-$ localhost:3005/api
-```
-
-## Database snapshot
-
-```bash
-[
+export const database: Array<Customer | Manager> = [
   {
     id: '76a2237f-1ddc-4aa3-9db7-66f7518b8f28',
     customers: [
@@ -101,13 +53,4 @@ $ localhost:3005/api
     },
     managerId: '76a2237f-1ddc-4aa3-9db7-66f7518b8f28',
   },
-]
-```
-
-## Healthcheck
-
-```bash
-$ localhost:3005/api/health
-```
-
-#### Desenvolvido por Nathally Souza
+];
