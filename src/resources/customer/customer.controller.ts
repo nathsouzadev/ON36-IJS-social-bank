@@ -57,4 +57,30 @@ export class CustomerController {
   ) {
     return this.customerService.deleteAccount(accountId, customerId);
   }
+
+  @Patch(':customerId/account/:accountId/withdraw')
+  withdraw(
+    @Body() operationDto: { amount: number },
+    @Param('customerId') customerId: string,
+    @Param('accountId') accountId: string,
+  ) {
+    return this.customerService.withdraw({
+      amount: operationDto.amount,
+      customerId,
+      accountId,
+    });
+  }
+
+  @Patch(':customerId/account/:accountId/deposit')
+  deposit(
+    @Body() operationDto: { amount: number },
+    @Param('customerId') customerId: string,
+    @Param('accountId') accountId: string,
+  ) {
+    return this.customerService.deposit({
+      amount: operationDto.amount,
+      customerId,
+      accountId,
+    });
+  }
 }

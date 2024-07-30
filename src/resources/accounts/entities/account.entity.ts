@@ -14,7 +14,8 @@ export class Account {
     this.customerId = data.customerId;
     this.balance = data.balance;
     this.type = data.type;
-    this.interestRate = 0.02;
-    this.overdraftLimit = data.type === 'current' ? 1000 : 0;
+    data.type === 'current'
+      ? ((this.overdraftLimit = 1000), (this.interestRate = 0))
+      : ((this.overdraftLimit = 0), (this.interestRate = 0.05));
   }
 }
