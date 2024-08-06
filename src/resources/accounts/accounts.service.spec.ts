@@ -1,15 +1,24 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AccountsService } from './accounts.service';
+import { AccountsRepository } from './repository/accounts.repository';
 
 describe('AccountsService', () => {
   let service: AccountsService;
+  let mockAccountsRepository: AccountsRepository
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [AccountsService],
+      providers: [
+        AccountsService,
+        {
+          provide: AccountsRepository,
+          useValue: {}
+        }
+      ],
     }).compile();
 
     service = module.get<AccountsService>(AccountsService);
+    mockAccountsRepository = module.get<AccountsRepository>(AccountsRepository);
   });
 
   it('should be create account', () => {
