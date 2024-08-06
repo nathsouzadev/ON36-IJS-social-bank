@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AccountsService } from './accounts.service';
 import { AccountsRepository } from './repository/accounts.repository';
 import { randomUUID } from 'crypto';
+import { AccountType } from './dto/create-account.dto';
 
 describe('AccountsService', () => {
   let service: AccountsService;
@@ -31,7 +32,7 @@ describe('AccountsService', () => {
       customerId: '0c2122f8-9d02-40d6-b84e-dbed3fb1f8a4',
       customerIndex: 1,
       balance: 1000,
-      type: 'current',
+      type: AccountType.CURRENT,
     };
 
     jest.spyOn(mockAccountsRepository, 'create').mockReturnValue({
@@ -61,7 +62,7 @@ describe('AccountsService', () => {
       customerId: '0c2122f8-9d02-40d6-b84e-dbed3fb1f8a4',
       customerIndex: 1,
       balance: 1000,
-      type: 'current',
+      type: AccountType.CURRENT,
     };
 
     jest.spyOn(mockAccountsRepository, 'update').mockReturnValue({

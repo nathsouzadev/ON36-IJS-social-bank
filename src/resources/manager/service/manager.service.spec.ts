@@ -3,6 +3,7 @@ import { ManagerService } from './manager.service';
 import { CustomerService } from '../../../resources/customer/service/customer.service';
 import { randomUUID } from 'crypto';
 import { ManagerRepository } from '../repository/manager.repository';
+import { AccountType } from '../../../resources/accounts/dto/create-account.dto';
 
 describe('ManagerService', () => {
   let service: ManagerService;
@@ -159,7 +160,7 @@ describe('ManagerService', () => {
     const mockCustomerId = randomUUID();
     const mockAccountId = randomUUID();
     const mockUpdateAccountDto = {
-      type: 'savings',
+      type: AccountType.SAVINGS,
       accountId: mockAccountId,
     };
 
@@ -169,7 +170,7 @@ describe('ManagerService', () => {
         id: mockAccountId,
         customerId: mockCustomerId,
         balance: 1000,
-        type: 'savings',
+        type: AccountType.SAVINGS,
         interestRate: 0.02,
         overdraftLimit: 0,
       },

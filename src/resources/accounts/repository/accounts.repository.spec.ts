@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AccountsRepository } from './accounts.repository';
+import { AccountType } from '../dto/create-account.dto';
 
 describe('AccountsRepository', () => {
   let repository: AccountsRepository;
@@ -17,7 +18,7 @@ describe('AccountsRepository', () => {
       customerId: '0c2122f8-9d02-40d6-b84e-dbed3fb1f8a4',
       customerIndex: 1,
       balance: 1000,
-      type: 'current',
+      type: AccountType.CURRENT,
     };
 
     const response = repository.create(mockAccountDto);
@@ -37,7 +38,7 @@ describe('AccountsRepository', () => {
       customerId: '0c2122f8-9d02-40d6-b84e-dbed3fb1f8a4',
       customerIndex: 1,
       balance: 1000,
-      type: 'current',
+      type: AccountType.CURRENT,
     };
 
     const response = repository.update(mockUpdateAccountDto);

@@ -1,3 +1,4 @@
+import { AccountType } from '../../resources/accounts/dto/create-account.dto';
 import { Customer } from '../../resources/customer/entities/customer.entity';
 import { Manager } from '../../resources/manager/entities/manager.entity';
 
@@ -37,7 +38,7 @@ export const database: Array<Customer | Manager> = [
         id: 'ac8eede5-80d6-463a-8256-09c41dab5124',
         customerId: '0c2122f8-9d02-40d6-b84e-dbed3fb1f8a4',
         balance: 1000,
-        type: 'current',
+        type: AccountType.CURRENT,
         interestRate: 0.02,
         overdraftLimit: 1000,
       },

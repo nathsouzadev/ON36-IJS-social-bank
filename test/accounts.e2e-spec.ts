@@ -58,6 +58,15 @@ describe('accounts e2e', () => {
             type: 'current',
             interestRate: 0.02,
             overdraftLimit: 1000,
+            card: {
+              id: expect.any(String),
+              accountId: expect.any(String),
+              customerId: '0c2122f8-9d02-40d6-b84e-dbed3fb1f8a4',
+              number: expect.any(String),
+              cvv: expect.any(String),
+              expirationDate: expect.any(String),
+              limit: 500
+            }
           },
         });
       });
@@ -95,7 +104,6 @@ describe('accounts e2e', () => {
       .delete(`/api/customer/${mockCustomerId}/account/${mockAccountId}`)
       .expect(200)
       .then(async (response) => {
-        console.log(response.body);
         expect(response.body).toMatchObject({
           message: 'Account deleted successfully',
         });
