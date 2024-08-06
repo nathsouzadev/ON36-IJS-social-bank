@@ -117,9 +117,7 @@ describe('manager e2e', () => {
       .expect(200)
       .then(async (response) => {
         expect(response.body).toMatchObject({
-          response: {
-            message: 'Account deleted successfully',
-          },
+          message: 'Account deleted successfully',
         });
       });
   });
