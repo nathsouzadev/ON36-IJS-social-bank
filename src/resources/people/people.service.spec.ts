@@ -12,7 +12,25 @@ describe('PeopleService', () => {
     service = module.get<PeopleService>(PeopleService);
   });
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
+  it('should becreate people', () => {
+    const mockCustomerDto = {
+      name: 'Mary Jackson',
+      email: 'may@idiomaparatodos.com.br',
+      city: 'Hampton',
+      phoneNumber: '5511880881234',
+      cpf: '12345678901',
+      birthdate: '1921-04-09',
+    };
+
+    const response = service.create(mockCustomerDto);
+    expect(response).toMatchObject({
+      id: expect.any(String),
+      name: 'Mary Jackson',
+      email: 'may@idiomaparatodos.com.br',
+      city: 'Hampton',
+      phoneNumber: '5511880881234',
+      cpf: '12345678901',
+      birthdate: '1921-04-09',
+    });
   });
 });
