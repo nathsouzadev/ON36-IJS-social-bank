@@ -2,7 +2,6 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateManagerDto } from '../dto/create-manager.dto';
 import { database } from '../../../config/db/db';
 import { Manager } from '../entities/manager.entity';
-import { People } from '../../../resources/people/entities/person.entity';
 import { CustomerService } from '../../../resources/customer/service/customer.service';
 import { UpdateAccountDto } from '../../../resources/accounts/dto/update-account.dto';
 import { CustomerDto } from '../../../resources/customer/dto/create-customer.dto';
