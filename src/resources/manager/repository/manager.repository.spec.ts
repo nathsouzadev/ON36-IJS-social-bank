@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ManagerRepository } from './manager.repository';
 import { randomUUID } from 'crypto';
 
-describe('ManagerService', () => {
+describe('ManagerRepository', () => {
   let repository: ManagerRepository;
 
   beforeEach(async () => {

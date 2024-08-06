@@ -1,13 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ManagerService } from './manager.service';
 import { CustomerService } from '../../../resources/customer/service/customer.service';
-import { AccountsService } from '../../../resources/accounts/accounts.service';
 import { randomUUID } from 'crypto';
+import { ManagerRepository } from '../repository/manager.repository';
 
 describe('ManagerService', () => {
   let service: ManagerService;
   let mockCustomerService: CustomerService;
-  let mockAccountsService: AccountsService;
+  let mockManagerRepository: ManagerRepository;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -22,9 +22,10 @@ describe('ManagerService', () => {
           },
         },
         {
-          provide: AccountsService,
+          provide: ManagerRepository,
           useValue: {
             create: jest.fn(),
+            getIndex: jest.fn(),
           },
         },
       ],
@@ -32,7 +33,7 @@ describe('ManagerService', () => {
 
     service = module.get<ManagerService>(ManagerService);
     mockCustomerService = module.get<CustomerService>(CustomerService);
-    mockAccountsService = module.get<AccountsService>(AccountsService);
+    mockManagerRepository = module.get<ManagerRepository>(ManagerRepository);
   });
 
   it('should be create a manager', () => {
@@ -44,8 +45,28 @@ describe('ManagerService', () => {
       cpf: '12345678901',
       birthdate: '1918-08-26',
     };
+    const mockManagerId = randomUUID();
+
+    jest.spyOn(mockManagerRepository, 'create').mockReturnValue({
+      manager: {
+        id: mockManagerId,
+        customers: [],
+        people: {
+          id: mockManagerId,
+          name: 'Katherine Johnson',
+          email: 'katherine@idiomaparatodos.com.br',
+          city: 'White Sulphur',
+          phoneNumber: '5511880881234',
+          cpf: '12345678901',
+          birthdate: '1918-08-26',
+        },
+      },
+    });
 
     const response = service.create(mockCreateManagerDto);
+    expect(mockManagerRepository.create).toHaveBeenCalledWith(
+      mockCreateManagerDto,
+    );
     expect(response).toMatchObject({
       manager: {
         id: expect.any(String),
@@ -63,6 +84,24 @@ describe('ManagerService', () => {
     });
   });
 
+  it('should be get a manager index', () => {
+    const mockManagerId = '76a2237f-1ddc-4aa3-9db7-66f7518b8f28';
+    jest.spyOn(mockManagerRepository, 'getIndex').mockReturnValue(0);
+
+    const response = service.validateManager(mockManagerId);
+    expect(mockManagerRepository.getIndex).toHaveBeenCalledWith(mockManagerId);
+    expect(response).toBe(undefined);
+  });
+
+  it('should be throw error if manager not found', () => {
+    const mockManagerId = randomUUID();
+    jest.spyOn(mockManagerRepository, 'getIndex').mockReturnValue(-1);
+
+    expect(() => {
+      service.validateManager(mockManagerId);
+    }).toThrowError('Manager not found');
+  });
+
   it('should be create a customer', () => {
     const mockManagerId = '76a2237f-1ddc-4aa3-9db7-66f7518b8f28';
     const mockCustomerDto = {
@@ -76,6 +115,7 @@ describe('ManagerService', () => {
     };
     const mockCustomerId = randomUUID();
 
+    jest.spyOn(mockManagerRepository, 'getIndex').mockReturnValue(0);
     jest.spyOn(mockCustomerService, 'create').mockReturnValue({
       customer: {
         id: mockCustomerId,
@@ -94,6 +134,7 @@ describe('ManagerService', () => {
     });
 
     const response = service.createCustomer(mockManagerId, mockCustomerDto);
+    expect(mockManagerRepository.getIndex).toHaveBeenCalledWith(mockManagerId);
     expect(mockCustomerService.create).toHaveBeenCalledWith(mockCustomerDto);
     expect(response).toMatchObject({
       customer: {
@@ -122,6 +163,7 @@ describe('ManagerService', () => {
       accountId: mockAccountId,
     };
 
+    jest.spyOn(mockManagerRepository, 'getIndex').mockReturnValue(0);
     jest.spyOn(mockCustomerService, 'updateAccount').mockReturnValue({
       account: {
         id: mockAccountId,
@@ -137,6 +179,7 @@ describe('ManagerService', () => {
       mockManagerId,
       mockUpdateAccountDto,
     );
+    expect(mockManagerRepository.getIndex).toHaveBeenCalledWith(mockManagerId);
     expect(mockCustomerService.updateAccount).toHaveBeenCalledWith(
       mockUpdateAccountDto,
     );
@@ -157,7 +200,8 @@ describe('ManagerService', () => {
     const mockCustomerId = randomUUID();
     const mockAccountId = randomUUID();
 
-    jest.spyOn<any, any>(mockCustomerService, 'deleteAccount').mockReturnValue({
+    jest.spyOn(mockManagerRepository, 'getIndex').mockReturnValue(0);
+    jest.spyOn(mockCustomerService, 'deleteAccount').mockReturnValue({
       message: 'Account deleted successfully',
     });
 
@@ -166,6 +210,7 @@ describe('ManagerService', () => {
       mockCustomerId,
       mockAccountId,
     );
+    expect(mockManagerRepository.getIndex).toHaveBeenCalledWith(mockManagerId);
     expect(mockCustomerService.deleteAccount).toHaveBeenCalledWith(
       mockAccountId,
       mockCustomerId,

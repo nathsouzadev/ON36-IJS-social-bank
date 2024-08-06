@@ -6,27 +6,27 @@ import { People } from '../../../resources/people/entities/person.entity';
 import { CustomerService } from '../../../resources/customer/service/customer.service';
 import { UpdateAccountDto } from '../../../resources/accounts/dto/update-account.dto';
 import { CustomerDto } from '../../../resources/customer/dto/create-customer.dto';
+import { ManagerRepository } from '../repository/manager.repository';
 
 @Injectable()
 export class ManagerService {
   db = database;
 
-  constructor(private readonly customerService: CustomerService) {}
+  constructor(
+    private readonly customerService: CustomerService,
+    private readonly managerRepository: ManagerRepository,
+  ) {}
 
-  private validateManager = (id: string): void => {
-    const validateManager = this.db.find((manager) => manager.id === id);
+  validateManager = (id: string): void => {
+    const index = this.managerRepository.getIndex(id);
 
-    if (!validateManager) {
+    if (index === -1) {
       throw new NotFoundException('Manager not found');
     }
   };
 
-  create(createManagerDto: CreateManagerDto) {
-    const manager = new Manager(new People(createManagerDto));
-    this.db.push(manager);
-
-    return { manager };
-  }
+  create = (createManagerDto: CreateManagerDto): { manager: Manager } =>
+    this.managerRepository.create(createManagerDto);
 
   updateCustomerAccount(managerId: string, accountDto: UpdateAccountDto) {
     this.validateManager(managerId);
