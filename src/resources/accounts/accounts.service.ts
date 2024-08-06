@@ -9,47 +9,14 @@ import { AccountsRepository } from './repository/accounts.repository';
 export class AccountsService {
   db = database;
 
-  constructor(
-    private readonly accountsRepository: AccountsRepository,
-  ) {}
+  constructor(private readonly accountsRepository: AccountsRepository) {}
 
-  create(createAccountDto: AccountDto) {
-    const updatedDb = [...this.db];
-    const account = new Account(createAccountDto);
-    updatedDb[createAccountDto.customerIndex]['accounts'].push(account);
-    this.db = updatedDb;
+  create = (createAccountDto: AccountDto): { account: Account } =>
+    this.accountsRepository.create(createAccountDto);
 
-    return { account };
-  }
+  update = (accountDto: UpdateAccountDto): { account: Account } =>
+    this.accountsRepository.update(accountDto);
 
-  update(accountDto: UpdateAccountDto) {
-    const updatedDb = [...this.db];
-    const accounts = updatedDb[accountDto.customerIndex]['accounts'];
-    const accountIndex = accounts.findIndex(
-      (account: Account) => account.id === accountDto.accountId,
-    );
-
-    accounts[accountIndex] = {
-      ...accounts[accountIndex],
-      type: accountDto.type,
-    };
-
-    this.db = updatedDb;
-
-    return {
-      account: updatedDb[accountDto.customerIndex]['accounts'][accountIndex],
-    };
-  }
-
-  delete(accountId: string, customerIndex: number) {
-    const updatedDb = [...this.db];
-    const accountsUpdated = updatedDb[customerIndex]['accounts'].filter(
-      (account: Account) => account.id !== accountId,
-    );
-    updatedDb[customerIndex]['accounts'] = accountsUpdated;
-
-    this.db = updatedDb;
-
-    return { message: 'Account deleted successfully' };
-  }
+  delete = (accountId: string, customerIndex: number): { message: string } =>
+    this.accountsRepository.delete(accountId, customerIndex);
 }
