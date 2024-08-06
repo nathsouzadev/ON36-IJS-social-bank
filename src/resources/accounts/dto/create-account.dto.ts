@@ -1,6 +1,6 @@
 export class AccountDto {
     customerId: string;
     customerIndex: number;
-    type: 'savings' | 'current';
+    type: string;
     balance = 0;
 }
