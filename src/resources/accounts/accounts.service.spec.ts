@@ -3,10 +3,12 @@ import { AccountsService } from './accounts.service';
 import { AccountsRepository } from './repository/accounts.repository';
 import { randomUUID } from 'crypto';
 import { AccountType } from './dto/create-account.dto';
+import { CardsService } from '../cards/cards.service';
 
 describe('AccountsService', () => {
   let service: AccountsService;
   let mockAccountsRepository: AccountsRepository;
+  let mockCardsService: CardsService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -18,6 +20,13 @@ describe('AccountsService', () => {
             create: jest.fn(),
             update: jest.fn(),
             delete: jest.fn(),
+            getIndex: jest.fn(),
+          },
+        },
+        {
+          provide: CardsService,
+          useValue: {
+            create: jest.fn(),
           },
         },
       ],
@@ -25,6 +34,7 @@ describe('AccountsService', () => {
 
     service = module.get<AccountsService>(AccountsService);
     mockAccountsRepository = module.get<AccountsRepository>(AccountsRepository);
+    mockCardsService = module.get<CardsService>(CardsService);
   });
 
   it('should be create account', () => {
@@ -52,6 +62,69 @@ describe('AccountsService', () => {
         type: 'current',
         balance: 1000,
         customerId: '0c2122f8-9d02-40d6-b84e-dbed3fb1f8a4',
+      },
+    });
+  });
+
+  it('should be create current account', () => {
+    const mockCustomerId = '0c2122f8-9d02-40d6-b84e-dbed3fb1f8a4';
+    const mockAccountId = randomUUID();
+
+    const mockAccountDto = {
+      customerId: mockCustomerId,
+      customerIndex: 1,
+      balance: 1000,
+      type: AccountType.CURRENT,
+    };
+
+    jest.spyOn(mockAccountsRepository, 'create').mockReturnValue({
+      account: {
+        id: mockAccountId,
+        overdraftLimit: 1000,
+        interestRate: 0.02,
+        ...mockAccountDto,
+      },
+    });
+    jest.spyOn(mockAccountsRepository, 'getIndex').mockReturnValue(0);
+    jest.spyOn(mockCardsService, 'create').mockReturnValue({
+      card: {
+        id: randomUUID(),
+        customerId: mockCustomerId,
+        accountId: mockAccountId,
+        limit: 500,
+        number: '4242505042425050',
+        cvv: '123',
+        expirationDate: '12/30',
+      },
+    });
+
+    const response = service.create(mockAccountDto);
+    expect(mockAccountsRepository.create).toHaveBeenCalledWith(mockAccountDto);
+    expect(mockAccountsRepository.getIndex).toHaveBeenCalledWith(
+      mockAccountId,
+      1,
+    );
+    expect(mockCardsService.create).toHaveBeenCalledWith({
+      customerId: mockCustomerId,
+      customerIndex: 1,
+      accountId: mockAccountId,
+      accountIndex: 0,
+    });
+    expect(response).toMatchObject({
+      account: {
+        id: expect.any(String),
+        type: 'current',
+        balance: 1000,
+        customerId: mockCustomerId,
+        card: {
+          id: expect.any(String),
+          accountId: mockAccountId,
+          customerId: mockCustomerId,
+          number: expect.any(String),
+          cvv: expect.any(String),
+          expirationDate: expect.any(String),
+          limit: 500,
+        },
       },
     });
   });

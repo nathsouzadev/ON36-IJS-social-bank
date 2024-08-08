@@ -47,4 +47,9 @@ export class AccountsRepository {
 
     return { message: 'Account deleted successfully' };
   }
+
+  getIndex = (accountId: string, customerIndex: number): number =>
+    this.db[customerIndex]['accounts'].findIndex(
+      (account: Account) => account.id === accountId,
+    );
 }

@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AccountsRepository } from './accounts.repository';
 import { AccountType } from '../dto/create-account.dto';
+import { randomUUID } from 'crypto';
 
 describe('AccountsRepository', () => {
   let repository: AccountsRepository;
@@ -50,6 +51,19 @@ describe('AccountsRepository', () => {
         customerId: '0c2122f8-9d02-40d6-b84e-dbed3fb1f8a4',
       },
     });
+  });
+
+  it('should be get account index', () => {
+    const response = repository.getIndex(
+      'ac8eede5-80d6-463a-8256-09c41dab5124',
+      1,
+    );
+    expect(response).toBe(0);
+  });
+
+  it('should be return -1 if account not exists', () => {
+    const response = repository.getIndex(randomUUID(), 1);
+    expect(response).toBe(-1);
   });
 
   it('should be delete account', () => {
