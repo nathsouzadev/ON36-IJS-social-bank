@@ -64,11 +64,7 @@ export class CustomerController {
     @Param('customerId') customerId: string,
     @Param('accountId') accountId: string,
   ) {
-    return this.customerService.withdraw({
-      amount: operationDto.amount,
-      customerId,
-      accountId,
-    });
+    return 0
   }
 
   @Patch(':customerId/account/:accountId/deposit')
@@ -77,10 +73,6 @@ export class CustomerController {
     @Param('customerId') customerId: string,
     @Param('accountId') accountId: string,
   ) {
-    return this.customerService.deposit({
-      amount: operationDto.amount,
-      customerId,
-      accountId,
-    });
+    return 0
   }
 }
