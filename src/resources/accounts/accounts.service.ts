@@ -14,23 +14,29 @@ export class AccountsService {
 
   create = (createAccountDto: AccountDto): { account: Account } => {
     const { account } = this.accountsRepository.create(createAccountDto);
-    const accountIndex = this.accountsRepository.getIndex(
-      account.id,
-      createAccountDto.customerIndex,
-    );
-    const { card } = this.cardsService.create({
-      accountId: account.id,
-      accountIndex,
-      customerId: createAccountDto.customerId,
-      customerIndex: createAccountDto.customerIndex,
-    });
+    
+    if (account.type === 'current') {
+      const accountIndex = this.accountsRepository.getIndex(
+        account.id,
+        createAccountDto.customerIndex,
+      );
+      const { card } = this.cardsService.create({
+        accountId: account.id,
+        accountIndex,
+        customerId: createAccountDto.customerId,
+        customerIndex: createAccountDto.customerIndex,
+      });
+  
+      return {
+        account: {
+          ...account,
+          card,
+        },
+      };
+    }
 
-    return {
-      account: {
-        ...account,
-        card,
-      },
-    };
+    return { account };
+
   };
 
   update = (accountDto: UpdateAccountDto): { account: Account } =>

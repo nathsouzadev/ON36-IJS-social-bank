@@ -37,12 +37,12 @@ describe('AccountsService', () => {
     mockCardsService = module.get<CardsService>(CardsService);
   });
 
-  it('should be create account', () => {
+  it('should be create savings account', () => {
     const mockAccountDto = {
       customerId: '0c2122f8-9d02-40d6-b84e-dbed3fb1f8a4',
       customerIndex: 1,
       balance: 1000,
-      type: AccountType.CURRENT,
+      type: AccountType.SAVINGS,
     };
 
     jest.spyOn(mockAccountsRepository, 'create').mockReturnValue({
@@ -59,7 +59,7 @@ describe('AccountsService', () => {
     expect(response).toMatchObject({
       account: {
         id: expect.any(String),
-        type: 'current',
+        type: 'savings',
         balance: 1000,
         customerId: '0c2122f8-9d02-40d6-b84e-dbed3fb1f8a4',
       },
