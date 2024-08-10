@@ -1,6 +1,7 @@
 import { randomUUID } from 'crypto';
 import { number } from '../../../lib/number';
 import { expirationDate } from '../../../lib/expiration-date';
+import { Purchase } from './purchase.entity';
 
 export class Card {
   id: string;
@@ -10,7 +11,7 @@ export class Card {
   cvv: string;
   expirationDate: string;
   limit: number;
-  purchases: any[] = [];
+  purchases: Purchase[] = [];
 
   constructor(data: { customerId: string; accountId: string }) {
     this.id = randomUUID();
