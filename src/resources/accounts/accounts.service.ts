@@ -3,7 +3,7 @@ import { AccountDto } from './dto/create-account.dto';
 import { Account } from './entities/account.entity';
 import { UpdateAccountDto } from './dto/update-account.dto';
 import { AccountsRepository } from './repository/accounts.repository';
-import { CardsService } from '../cards/cards.service';
+import { CardsService } from '../cards/service/cards.service';
 
 @Injectable()
 export class AccountsService {

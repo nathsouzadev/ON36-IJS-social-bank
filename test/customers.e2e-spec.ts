@@ -70,7 +70,7 @@ describe('customer e2e', () => {
               },
             ],
             people: {
-              id: '26e5f43c-bb42-4cf2-968b-56d32e049c56',
+              id: '0c2122f8-9d02-40d6-b84e-dbed3fb1f8a4',
               name: 'Grace Hooper',
               email: 'grace@idiomaparatodos.com.br',
               city: 'Londres',

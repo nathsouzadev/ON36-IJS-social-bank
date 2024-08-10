@@ -10,6 +10,7 @@ export class Card {
   cvv: string;
   expirationDate: string;
   limit: number;
+  purchases: any[] = [];
 
   constructor(data: { customerId: string; accountId: string }) {
     this.id = randomUUID();

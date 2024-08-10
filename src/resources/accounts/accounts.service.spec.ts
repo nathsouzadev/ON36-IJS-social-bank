@@ -3,7 +3,7 @@ import { AccountsService } from './accounts.service';
 import { AccountsRepository } from './repository/accounts.repository';
 import { randomUUID } from 'crypto';
 import { AccountType } from './dto/create-account.dto';
-import { CardsService } from '../cards/cards.service';
+import { CardsService } from '../cards/service/cards.service';
 
 describe('AccountsService', () => {
   let service: AccountsService;
@@ -95,6 +95,7 @@ describe('AccountsService', () => {
         number: '4242505042425050',
         cvv: '123',
         expirationDate: '12/30',
+        purchases: [],
       },
     });
 
