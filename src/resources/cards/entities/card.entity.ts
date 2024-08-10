@@ -1,4 +1,6 @@
 import { randomUUID } from 'crypto';
+import { number } from '../../../lib/number';
+import { expirationDate } from '../../../lib/expiration-date';
 
 export class Card {
   id: string;
@@ -13,9 +15,9 @@ export class Card {
     this.id = randomUUID();
     this.customerId = data.customerId;
     this.accountId = data.accountId;
-    this.number = '4242505042425050';
-    this.cvv = '123';
-    this.expirationDate = '12/30';
+    this.number = number(16);
+    this.cvv = number(3);
+    this.expirationDate = expirationDate();
     this.limit = 500;
   }
 }

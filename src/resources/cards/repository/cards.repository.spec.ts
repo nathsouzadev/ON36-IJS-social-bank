@@ -25,8 +25,8 @@ describe('CardsRepository', () => {
         customerId: expect.any(String),
         accountId: expect.any(String),
         limit: 500,
-        number: '4242505042425050',
-        cvv: '123',
+        number: expect.any(String),
+        cvv: expect.any(String),
         expirationDate: '12/30',
       },
     });
