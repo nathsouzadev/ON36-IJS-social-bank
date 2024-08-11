@@ -1,3 +1,4 @@
+import { AccountType } from '../../resources/accounts/dto/create-account.dto';
 import { Customer } from '../../resources/customer/entities/customer.entity';
 import { Manager } from '../../resources/manager/entities/manager.entity';
 
@@ -37,13 +38,23 @@ export const database: Array<Customer | Manager> = [
         id: 'ac8eede5-80d6-463a-8256-09c41dab5124',
         customerId: '0c2122f8-9d02-40d6-b84e-dbed3fb1f8a4',
         balance: 1000,
-        type: 'current',
+        type: AccountType.CURRENT,
         interestRate: 0.02,
         overdraftLimit: 1000,
+        card: {
+          id: '6641d6aa-dfe0-46ff-a803-721a3f1aae9e',
+          customerId: '0c2122f8-9d02-40d6-b84e-dbed3fb1f8a4',
+          accountId: 'ac8eede5-80d6-463a-8256-09c41dab5124',
+          number: '4242505042425050',
+          cvv: '123',
+          expirationDate: '12/30',
+          limit: 500,
+          purchases: [],
+        },
       },
     ],
     people: {
-      id: '26e5f43c-bb42-4cf2-968b-56d32e049c56',
+      id: '0c2122f8-9d02-40d6-b84e-dbed3fb1f8a4',
       name: 'Grace Hooper',
       email: 'grace@idiomaparatodos.com.br',
       city: 'Londres',

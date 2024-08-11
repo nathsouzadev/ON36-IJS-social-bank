@@ -1,21 +1,22 @@
 import { randomUUID } from 'crypto';
-import { AccountDto } from '../dto/create-account.dto';
+import { AccountDto, AccountType } from '../dto/create-account.dto';
+import { Card } from '../../../resources/cards/entities/card.entity';
 
 export class Account {
   id: string;
   customerId: string;
   balance: number;
-  type: string;
+  type: AccountType;
   overdraftLimit: number;
   interestRate: number;
+  card?: Card;
 
   constructor(data: AccountDto) {
     this.id = randomUUID();
     this.customerId = data.customerId;
     this.balance = data.balance;
     this.type = data.type;
-    data.type === 'current'
-      ? ((this.overdraftLimit = 1000), (this.interestRate = 0))
-      : ((this.overdraftLimit = 0), (this.interestRate = 0.05));
+    this.interestRate = 0.02;
+    this.overdraftLimit = data.type === AccountType.CURRENT ? 1000 : 0;
   }
 }

@@ -1,91 +1,47 @@
 import { Injectable } from '@nestjs/common';
 import { AccountDto } from './dto/create-account.dto';
-import { database } from '../../config/db/db';
 import { Account } from './entities/account.entity';
 import { UpdateAccountDto } from './dto/update-account.dto';
-import { OperationModel } from './models/operation.model';
+import { AccountsRepository } from './repository/accounts.repository';
+import { CardsService } from '../cards/service/cards.service';
 
 @Injectable()
 export class AccountsService {
-  db = database;
-
-  get = (customerIndex: number, accountId: string): Account =>
-    this.db[customerIndex]['accounts'].find(
-      (account: Account) => account.id === accountId,
-    );
+  constructor(
+    private readonly accountsRepository: AccountsRepository,
+    private readonly cardsService: CardsService,
+  ) {}
 
   create = (createAccountDto: AccountDto): { account: Account } => {
-    const updatedDb = [...this.db];
-    const account = new Account(createAccountDto);
-    updatedDb[createAccountDto.customerIndex]['accounts'].push(account);
-    this.db = updatedDb;
+    const { account } = this.accountsRepository.create(createAccountDto);
+    
+    if (account.type === 'current') {
+      const accountIndex = this.accountsRepository.getIndex(
+        account.id,
+        createAccountDto.customerIndex,
+      );
+      const { card } = this.cardsService.create({
+        accountId: account.id,
+        accountIndex,
+        customerId: createAccountDto.customerId,
+        customerIndex: createAccountDto.customerIndex,
+      });
+  
+      return {
+        account: {
+          ...account,
+          card,
+        },
+      };
+    }
 
     return { account };
+
   };
 
-  update = (accountDto: UpdateAccountDto): { account: Account } => {
-    const updatedDb = [...this.db];
-    const accounts = updatedDb[accountDto.customerIndex]['accounts'];
-    const accountIndex = accounts.findIndex(
-      (account: Account) => account.id === accountDto.accountId,
-    );
+  update = (accountDto: UpdateAccountDto): { account: Account } =>
+    this.accountsRepository.update(accountDto);
 
-    accounts[accountIndex] = {
-      ...accounts[accountIndex],
-      type: accountDto.type ?? accounts[accountIndex].type,
-      balance: accountDto.balance ?? accounts[accountIndex].balance,
-    };
-
-    this.db = updatedDb;
-
-    return {
-      account: updatedDb[accountDto.customerIndex]['accounts'][accountIndex],
-    };
-  };
-
-  delete = (accountId: string, customerIndex: number) => {
-    const updatedDb = [...this.db];
-    const accountsUpdated = updatedDb[customerIndex]['accounts'].filter(
-      (account: Account) => account.id !== accountId,
-    );
-    updatedDb[customerIndex]['accounts'] = accountsUpdated;
-
-    this.db = updatedDb;
-
-    return { message: 'Account deleted successfully' };
-  };
-
-  validateOverdraft = (account: Account, amount: number): void => {
-    if (account.balance - amount < -account.overdraftLimit) {
-      throw new Error('Insufficient funds');
-    }
-  };
-
-  deposit = (data: OperationModel): { account: Account } => {
-    const { accountId, customerIndex, amount } = data;
-    
-    const account = this.get(customerIndex, accountId);
-    this.validateOverdraft(account, amount);
-    account.balance += amount;
-
-    return this.update({
-      accountId,
-      customerIndex,
-      balance: account.balance,
-    });
-  };
-
-  withdraw = (data: OperationModel): { account: Account } => {
-    const { accountId, customerIndex, amount } = data;
-    
-    const account = this.get(customerIndex, accountId);
-    this.validateOverdraft(account, amount);
-    account.balance -= amount;
-
-    return this.update({
-      accountId,
-      customerIndex,
-      balance: account.balance,
-    });
-  };
+  delete = (accountId: string, customerIndex: number): { message: string } =>
+    this.accountsRepository.delete(accountId, customerIndex);
 }
