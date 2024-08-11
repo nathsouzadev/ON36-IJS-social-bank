@@ -40,7 +40,7 @@ describe('accounts e2e', () => {
   });
 
   it('should create current account', async () => {
-    const mockCustomerId = '0c2122f8-9d02-40d6-b84e-dbed3fb1f8a4';
+    const mockCustomerId = '28de278f-b119-4d69-b1b4-7abd9de9ace0';
 
     return request(app.getHttpServer())
       .post(`/api/customer/${mockCustomerId}/account`)
@@ -53,7 +53,7 @@ describe('accounts e2e', () => {
         expect(response.body).toMatchObject({
           account: {
             id: expect.any(String),
-            customerId: '0c2122f8-9d02-40d6-b84e-dbed3fb1f8a4',
+            customerId: mockCustomerId,
             balance: 1000,
             type: 'current',
             interestRate: 0.02,
@@ -61,7 +61,7 @@ describe('accounts e2e', () => {
             card: {
               id: expect.any(String),
               accountId: expect.any(String),
-              customerId: '0c2122f8-9d02-40d6-b84e-dbed3fb1f8a4',
+              customerId: mockCustomerId,
               number: expect.any(String),
               cvv: expect.any(String),
               expirationDate: expect.any(String),

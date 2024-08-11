@@ -11,7 +11,15 @@ export class AccountsRepository {
   create(createAccountDto: AccountDto): { account: Account } {
     const updatedDb = [...this.db];
     const account = new Account(createAccountDto);
-    updatedDb[createAccountDto.customerIndex]['accounts'].push(account);
+    
+    updatedDb.forEach(customer => {
+      if(Object.keys(customer).includes('accounts')) {
+        if(customer.id === createAccountDto.customerId) {
+          customer['accounts'].push(account);
+        }
+      }
+    })
+
     this.db = updatedDb;
 
     return { account };

@@ -15,9 +15,9 @@ describe('CardsRepository', () => {
 
   it('should be create card', () => {
     const response = repository.create({
-      accountId: 'ac8eede5-80d6-463a-8256-09c41dab5124',
+      accountId: 'c96a416c-93ef-4584-af4d-af2e25ab4df4',
       accountIndex: 0,
-      customerId: '0c2122f8-9d02-40d6-b84e-dbed3fb1f8a4',
+      customerId: '28de278f-b119-4d69-b1b4-7abd9de9ace0',
       customerIndex: 1
     });
     expect(response.card.number).toHaveLength(16);
@@ -34,6 +34,17 @@ describe('CardsRepository', () => {
         expirationDate: expect.any(String),
       },
     });
+  });
+
+  it('should be throw error if try create card already exists', () => {
+    expect(() => {
+      repository.create({
+        accountId: 'ac8eede5-80d6-463a-8256-09c41dab5124',
+        accountIndex: 0,
+        customerId: '0c2122f8-9d02-40d6-b84e-dbed3fb1f8a4',
+        customerIndex: 1
+      });
+    }).toThrowError('Card already exists');
   });
 
   it('should be get card by id', () => {

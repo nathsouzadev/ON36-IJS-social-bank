@@ -9,7 +9,7 @@ export class Account {
   type: AccountType;
   overdraftLimit: number;
   interestRate: number;
-  card?: Card;
+  card?: Card = null;
 
   constructor(data: AccountDto) {
     this.id = randomUUID();
