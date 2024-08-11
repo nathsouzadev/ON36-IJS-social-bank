@@ -1,6 +1,7 @@
 export enum AccountType {
   SAVINGS = 'savings',
   CURRENT = 'current',
+  COMPANY = 'company',
 }
 
 export class AccountDto {
