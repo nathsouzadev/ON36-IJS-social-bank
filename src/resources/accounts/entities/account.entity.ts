@@ -10,6 +10,12 @@ export class Account {
   overdraftLimit: number;
   interestRate: number;
   card?: Card = null;
+  company?: {
+    cnpj: string;
+    address: string;
+    partners: { name: string; type: string }[];
+    cnae: string;
+  } = null;
 
   constructor(data: AccountDto) {
     this.id = randomUUID();

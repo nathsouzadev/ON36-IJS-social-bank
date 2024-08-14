@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
+import * as nock from 'nock';
 
 describe('accounts e2e', () => {
   let app: INestApplication;
@@ -65,8 +66,73 @@ describe('accounts e2e', () => {
               number: expect.any(String),
               cvv: expect.any(String),
               expirationDate: expect.any(String),
-              limit: 500
-            }
+              limit: 500,
+            },
+          },
+        });
+      });
+  });
+
+  it('should create company account', async () => {
+    const mockCustomerId = '28de278f-b119-4d69-b1b4-7abd9de9ace0';
+    const mockCnpj = '17895646000420';
+
+    nock('https://brasilapi.com.br')
+      .get(`/api/cnpj/v1/${mockCnpj}`)
+      .reply(200, {
+        uf: 'DF',
+        cep: '70701000',
+        cnpj: mockCnpj,
+        razao_social: 'UBER DO BRASIL TECNOLOGIA LTDA.',
+        nome_fantasia: 'UBER DO BRASIL',
+        capital_social: 100005,
+        qsa: [
+          {
+            nome_socio: 'Dorothy Vaughan',
+            qualificacao_socio: 'Sócio-Administrador',
+          },
+        ],
+        cnae_fiscal_descricao:
+          'Desenvolvimento de programas de computador sob encomenda',
+      });
+
+    return request(app.getHttpServer())
+      .post(`/api/customer/${mockCustomerId}/account`)
+      .send({
+        type: 'company',
+        balance: 1000,
+        cnpj: mockCnpj,
+      })
+      .expect(201)
+      .then(async (response) => {
+        expect(response.body).toMatchObject({
+          account: {
+            id: expect.any(String),
+            customerId: mockCustomerId,
+            balance: 1000,
+            type: 'company',
+            interestRate: 0.02,
+            overdraftLimit: 1000,
+            card: {
+              id: expect.any(String),
+              accountId: expect.any(String),
+              customerId: mockCustomerId,
+              number: expect.any(String),
+              cvv: expect.any(String),
+              expirationDate: expect.any(String),
+              limit: 500,
+            },
+            company: {
+              cnpj: '17895646000420',
+              address: '70701000',
+              partners: [
+                {
+                  name: 'Dorothy Vaughan',
+                  type: 'Sócio-Administrador',
+                },
+              ],
+              cnae: 'Desenvolvimento de programas de computador sob encomenda',
+            },
           },
         });
       });

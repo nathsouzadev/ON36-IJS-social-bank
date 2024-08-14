@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { BrasilService } from './brasil.service';
+import { brasilProviders } from '../../config/providers/brasil.provider';
 
 @Module({
-  providers: [BrasilService],
+  providers: brasilProviders,
 })
 export class BrasilModule {}

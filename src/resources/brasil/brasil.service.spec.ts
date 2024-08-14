@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { BrasilService } from './brasil.service';
 import * as nock from 'nock';
+import { UnauthorizedException } from '@nestjs/common';
 
 describe('BrasilService', () => {
   let service: BrasilService;
@@ -68,5 +69,73 @@ describe('BrasilService', () => {
       cnpj: expect.any(String),
       isValid: false,
     });
+  });
+
+  it('should be validate cnpj with partner', async () => {
+    const mockCnpj = '17895646000420';
+
+    nock('https://brasilapi.com.br')
+      .get(`/api/cnpj/v1/${mockCnpj}`)
+      .reply(200, {
+        uf: 'DF',
+        cep: '70701000',
+        cnpj: mockCnpj,
+        razao_social: 'UBER DO BRASIL TECNOLOGIA LTDA.',
+        nome_fantasia: 'UBER DO BRASIL',
+        capital_social: 100005,
+        qsa: [
+          {
+            nome_socio: 'Dorothy Vaughan',
+            qualificacao_socio: 'Sócio-Administrador',
+          },
+        ],
+        cnae_fiscal_descricao:
+          'Desenvolvimento de programas de computador sob encomenda',
+      });
+
+    const response = await service.partnerCnpj({
+      cnpj: mockCnpj,
+      partner: 'Dorothy Vaughan',
+    });
+    expect(response).toMatchObject({
+      cep: '70701000',
+      partners: [
+        {
+          name: 'Dorothy Vaughan',
+          type: 'Sócio-Administrador',
+        },
+      ],
+      cnae: 'Desenvolvimento de programas de computador sob encomenda',
+    });
+  });
+
+  it('should be throw error if cnpj does not have partner', async () => {
+    const mockCnpj = '17895646000420';
+
+    nock('https://brasilapi.com.br')
+      .get(`/api/cnpj/v1/${mockCnpj}`)
+      .reply(200, {
+        uf: 'DF',
+        cep: '70701000',
+        cnpj: mockCnpj,
+        razao_social: 'UBER DO BRASIL TECNOLOGIA LTDA.',
+        nome_fantasia: 'UBER DO BRASIL',
+        capital_social: 100005,
+        qsa: [
+          {
+            nome_socio: 'Grace Hooper',
+            qualificacao_socio: 'Sócio-Administrador',
+          },
+        ],
+        cnae_fiscal_descricao:
+          'Desenvolvimento de programas de computador sob encomenda',
+      });
+
+    expect(
+      service.partnerCnpj({
+        cnpj: mockCnpj,
+        partner: 'Dorothy Vaughan',
+      }),
+    ).rejects.toThrow(new UnauthorizedException('Partner not found'));
   });
 });

@@ -9,4 +9,5 @@ export class AccountDto {
   customerIndex: number;
   type: AccountType;
   balance = 0;
+  cnpj?: string;
 }

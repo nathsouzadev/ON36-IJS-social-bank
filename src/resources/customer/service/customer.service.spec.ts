@@ -137,7 +137,7 @@ describe('CustomerService', () => {
     }).toThrowError('Customer not found');
   });
 
-  it('should be create a customer account', () => {
+  it('should be create a customer account', async () => {
     const mockAccountDto = {
       customerId: '0c2122f8-9d02-40d6-b84e-dbed3fb1f8a4',
       customerIndex: 1,
@@ -146,18 +146,20 @@ describe('CustomerService', () => {
     };
 
     jest.spyOn(service, 'validateCustomer').mockReturnValue(1);
-    jest.spyOn(mockAccountsService, 'create').mockReturnValue({
-      account: {
-        id: randomUUID(),
-        customerId: '0c2122f8-9d02-40d6-b84e-dbed3fb1f8a4',
-        balance: 1000,
-        type: AccountType.CURRENT,
-        interestRate: 0.02,
-        overdraftLimit: 1000,
-      },
-    });
+    jest.spyOn(mockAccountsService, 'create').mockImplementation(() =>
+      Promise.resolve({
+        account: {
+          id: randomUUID(),
+          customerId: '0c2122f8-9d02-40d6-b84e-dbed3fb1f8a4',
+          balance: 1000,
+          type: AccountType.CURRENT,
+          interestRate: 0.02,
+          overdraftLimit: 1000,
+        },
+      }),
+    );
 
-    const response = service.createAccount(mockAccountDto);
+    const response = await service.createAccount(mockAccountDto);
     expect(mockAccountsService.create).toHaveBeenCalledWith(mockAccountDto);
     expect(response).toMatchObject({
       account: {

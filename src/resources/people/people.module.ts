@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { PeopleService } from './people.service';
+import { peopleProviders } from '../../config/providers/people.provider';
 
 @Module({
-  providers: [PeopleService],
+  providers: peopleProviders,
 })
 export class PeopleModule {}

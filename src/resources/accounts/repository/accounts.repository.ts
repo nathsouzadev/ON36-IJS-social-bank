@@ -3,6 +3,7 @@ import { database } from '../../../config/db/db';
 import { AccountDto } from '../dto/create-account.dto';
 import { UpdateAccountDto } from '../dto/update-account.dto';
 import { Account } from '../entities/account.entity';
+import { Customer } from '../../../resources/customer/entities/customer.entity';
 
 @Injectable()
 export class AccountsRepository {
@@ -11,14 +12,14 @@ export class AccountsRepository {
   create(createAccountDto: AccountDto): { account: Account } {
     const updatedDb = [...this.db];
     const account = new Account(createAccountDto);
-    
-    updatedDb.forEach(customer => {
-      if(Object.keys(customer).includes('accounts')) {
-        if(customer.id === createAccountDto.customerId) {
+
+    updatedDb.forEach((customer) => {
+      if (Object.keys(customer).includes('accounts')) {
+        if (customer.id === createAccountDto.customerId) {
           customer['accounts'].push(account);
         }
       }
-    })
+    });
 
     this.db = updatedDb;
 
@@ -60,4 +61,7 @@ export class AccountsRepository {
     this.db[customerIndex]['accounts'].findIndex(
       (account: Account) => account.id === accountId,
     );
+
+  getCustomer = (customerId: string): Customer =>
+    this.db.find((customer) => customer.id === customerId) as Customer;
 }
