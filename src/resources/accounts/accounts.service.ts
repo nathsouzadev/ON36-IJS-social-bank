@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { AccountDto } from './dto/create-account.dto';
+import { AccountDto, AccountType } from './dto/create-account.dto';
 import { Account } from './entities/account.entity';
 import { UpdateAccountDto } from './dto/update-account.dto';
 import { AccountsRepository } from './repository/accounts.repository';
@@ -14,10 +14,15 @@ export class AccountsService {
     private readonly brasilService: BrasilService,
   ) {}
 
-  create = async (createAccountDto: AccountDto): Promise<{ account: Account }> => {
+  create = async (
+    createAccountDto: AccountDto,
+  ): Promise<{ account: Account }> => {
     const { account } = this.accountsRepository.create(createAccountDto);
-    
-    if (account.type === 'current' || account.type === 'company') {
+
+    if (
+      account.type === AccountType.CURRENT ||
+      account.type === AccountType.COMPANY
+    ) {
       const accountIndex = this.accountsRepository.getIndex(
         account.id,
         createAccountDto.customerIndex,
@@ -29,12 +34,14 @@ export class AccountsService {
         customerIndex: createAccountDto.customerIndex,
       });
 
-      if (account.type === 'company') {
-        const customer = this.accountsRepository.getCustomer(account.customerId)
+      if (account.type === AccountType.COMPANY) {
+        const customer = this.accountsRepository.getCustomer(
+          account.customerId,
+        );
         const cnpjData = await this.brasilService.partnerCnpj({
           cnpj: createAccountDto.cnpj,
           partner: customer.people.name,
-        })
+        });
 
         return {
           account: {
@@ -48,7 +55,7 @@ export class AccountsService {
           },
         };
       }
-  
+
       return {
         account: {
           ...account,
