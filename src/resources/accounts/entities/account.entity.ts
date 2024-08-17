@@ -9,7 +9,13 @@ export class Account {
   type: AccountType;
   overdraftLimit: number;
   interestRate: number;
-  card?: Card;
+  card?: Card = null;
+  company?: {
+    cnpj: string;
+    address: string;
+    partners: { name: string; type: string }[];
+    cnae: string;
+  } = null;
 
   constructor(data: AccountDto) {
     this.id = randomUUID();
@@ -17,6 +23,6 @@ export class Account {
     this.balance = data.balance;
     this.type = data.type;
     this.interestRate = 0.02;
-    this.overdraftLimit = data.type === AccountType.CURRENT ? 1000 : 0;
+    this.overdraftLimit = data.type === AccountType.SAVINGS ? 0 : 1000;
   }
 }

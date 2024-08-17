@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { database } from '../../../config/db/db';
 import { Card } from '../entities/card.entity';
 import { CreateCardDto } from '../dto/create-card.dto';
@@ -12,9 +12,20 @@ export class CardsRepository {
   create = (createCardDto: CreateCardDto): { card: Card } => {
     const updatedDb = [...this.db];
     const card = new Card(createCardDto);
-    updatedDb[createCardDto.customerIndex]['accounts'][
-      createCardDto.accountIndex
-    ]['cards'] = card;
+    
+    updatedDb.forEach(customer => {
+      if(Object.keys(customer).includes('accounts')) {
+        customer['accounts'].forEach(account => {
+          if(account.id === createCardDto.accountId) {
+            if(account.card !== null){
+              throw new UnauthorizedException('Card already exists');
+            }
+            
+            account.card = card;
+          }
+        })
+      }
+    })
 
     this.db = updatedDb;
 
@@ -39,7 +50,9 @@ export class CardsRepository {
       if(Object.keys(customer).includes('accounts')) {
         customer['accounts'].forEach(account => {
           if(Object.keys(account).includes('card')) {
-            account.card.purchases.push(purchase)
+            if(account.card !== null){
+              account.card.purchases.push(purchase);
+            }
           }
         })
       }

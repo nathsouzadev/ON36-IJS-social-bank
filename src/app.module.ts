@@ -11,6 +11,7 @@ import { CustomerModule } from './resources/customer/customer.module';
 import { AccountsModule } from './resources/accounts/accounts.module';
 import { ManagerModule } from './resources/manager/manager.module';
 import { CardsModule } from './resources/cards/cards.module';
+import { BrasilModule } from './resources/brasil/brasil.module';
 
 @Module({
   imports: [
@@ -25,7 +26,8 @@ import { CardsModule } from './resources/cards/cards.module';
     CustomerModule,
     AccountsModule,
     ManagerModule,
-    CardsModule
+    CardsModule,
+    BrasilModule
   ],
 })
 export class AppModule implements NestModule {

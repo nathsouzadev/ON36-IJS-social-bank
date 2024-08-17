@@ -64,4 +64,28 @@ export const database: Array<Customer | Manager> = [
     },
     managerId: '76a2237f-1ddc-4aa3-9db7-66f7518b8f28',
   },
+  {
+    id: '28de278f-b119-4d69-b1b4-7abd9de9ace0',
+    accounts: [
+      {
+        id: 'c96a416c-93ef-4584-af4d-af2e25ab4df4',
+        customerId: '28de278f-b119-4d69-b1b4-7abd9de9ace0',
+        balance: 1000,
+        type: AccountType.CURRENT,
+        interestRate: 0.02,
+        overdraftLimit: 1000,
+        card: null,
+      },
+    ],
+    people: {
+      id: '28de278f-b119-4d69-b1b4-7abd9de9ace0',
+      name: 'Dorothy Vaughan',
+      email: 'dorothy@idiomaparatodos.com.br',
+      city: 'Londres',
+      phoneNumber: '+5511123456789',
+      cpf: '12345678900',
+      birthdate: '1815-12-10',
+    },
+    managerId: '76a2237f-1ddc-4aa3-9db7-66f7518b8f28',
+  },
 ];

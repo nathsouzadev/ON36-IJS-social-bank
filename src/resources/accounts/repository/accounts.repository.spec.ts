@@ -75,4 +75,22 @@ describe('AccountsRepository', () => {
       message: 'Account deleted successfully',
     });
   });
+
+  it('should be get customer', () => {
+    const mockCustomerId = '0c2122f8-9d02-40d6-b84e-dbed3fb1f8a4';
+    const response = repository.getCustomer(mockCustomerId);
+    expect(response).toMatchObject({
+      id: mockCustomerId,
+      people: {
+        id: '0c2122f8-9d02-40d6-b84e-dbed3fb1f8a4',
+        name: 'Grace Hooper',
+        email: 'grace@idiomaparatodos.com.br',
+        city: 'Londres',
+        phoneNumber: '+5511123456789',
+        cpf: '12345678900',
+        birthdate: '1815-12-10',
+      },
+      managerId: '76a2237f-1ddc-4aa3-9db7-66f7518b8f28',
+    });
+  });
 });

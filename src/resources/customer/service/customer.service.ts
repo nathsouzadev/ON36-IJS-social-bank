@@ -27,9 +27,9 @@ export class CustomerService {
 
   get = (id: string): { customer: Customer } => this.customerRepository.get(id);
 
-  createAccount = (accountDto: AccountDto) => {
+  createAccount = async (accountDto: AccountDto) => {
     const customerIndex = this.validateCustomer(accountDto.customerId);
-    const account = this.accountService.create({
+    const account = await this.accountService.create({
       ...accountDto,
       customerIndex,
     });
