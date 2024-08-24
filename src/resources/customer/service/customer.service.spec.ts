@@ -4,11 +4,13 @@ import { AccountsService } from '../../../resources/accounts/accounts.service';
 import { randomUUID } from 'crypto';
 import { CustomerRepository } from '../repository/customer.repository';
 import { AccountType } from '../../../resources/accounts/dto/create-account.dto';
+import { PeopleService } from '../../../resources/people/people.service';
 
 describe('CustomerService', () => {
   let service: CustomerService;
   let mockAccountsService: AccountsService;
   let mockCustomerRepository: CustomerRepository;
+  let mockPeopleService: PeopleService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -30,12 +32,19 @@ describe('CustomerService', () => {
             getIndex: jest.fn(),
           },
         },
+        {
+          provide: PeopleService,
+          useValue: {
+            create: jest.fn(),
+          },
+        }
       ],
     }).compile();
 
     service = module.get<CustomerService>(CustomerService);
     mockAccountsService = module.get<AccountsService>(AccountsService);
     mockCustomerRepository = module.get<CustomerRepository>(CustomerRepository);
+    mockPeopleService = module.get<PeopleService>(PeopleService);
   });
 
   it('should be create a customer', () => {

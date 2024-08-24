@@ -5,12 +5,14 @@ import { AccountDto } from '../../../resources/accounts/dto/create-account.dto';
 import { AccountsService } from '../../../resources/accounts/accounts.service';
 import { UpdateAccountDto } from '../../../resources/accounts/dto/update-account.dto';
 import { CustomerRepository } from '../repository/customer.repository';
+import { PeopleService } from '../../../resources/people/people.service';
 
 @Injectable()
 export class CustomerService {
   constructor(
     private readonly accountService: AccountsService,
     private readonly customerRepository: CustomerRepository,
+    private readonly peopleService: PeopleService
   ) {}
 
   validateCustomer = (id: string): number => {
