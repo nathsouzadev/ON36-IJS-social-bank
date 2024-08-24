@@ -103,7 +103,7 @@ describe('ManagerService', () => {
     }).toThrowError('Manager not found');
   });
 
-  it('should be create a customer', () => {
+  it('should be create a customer', async () => {
     const mockManagerId = '76a2237f-1ddc-4aa3-9db7-66f7518b8f28';
     const mockCustomerDto = {
       name: 'Mary Jackson',
@@ -117,7 +117,7 @@ describe('ManagerService', () => {
     const mockCustomerId = randomUUID();
 
     jest.spyOn(mockManagerRepository, 'getIndex').mockReturnValue(0);
-    jest.spyOn(mockCustomerService, 'create').mockReturnValue({
+    jest.spyOn(mockCustomerService, 'create').mockImplementation(() => Promise.resolve({
       customer: {
         id: mockCustomerId,
         accounts: [],
@@ -132,9 +132,9 @@ describe('ManagerService', () => {
         },
         managerId: mockManagerId,
       },
-    });
+    }));
 
-    const response = service.createCustomer(mockManagerId, mockCustomerDto);
+    const response = await service.createCustomer(mockManagerId, mockCustomerDto);
     expect(mockManagerRepository.getIndex).toHaveBeenCalledWith(mockManagerId);
     expect(mockCustomerService.create).toHaveBeenCalledWith(mockCustomerDto);
     expect(response).toMatchObject({

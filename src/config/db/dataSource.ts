@@ -2,7 +2,7 @@ import 'dotenv/config';
 import { DataSource } from 'typeorm';
 import { People } from './entities/people.entity';
 
-export const dataSource = new DataSource({
+const dataSource = new DataSource({
   type: 'postgres',
   host: process.env.DB_HOST,
   port: parseInt(process.env.DB_PORT),
@@ -11,7 +11,7 @@ export const dataSource = new DataSource({
   database: process.env.DB_DATABASE,
   entities: [People],
   logging: true,
-  migrations: ['./src/config/migrations/*.ts'],
+  migrations: ['./src/config/db/migrations/*.ts'],
 });
   
 

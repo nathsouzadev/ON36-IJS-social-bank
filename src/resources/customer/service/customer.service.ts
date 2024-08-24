@@ -24,8 +24,12 @@ export class CustomerService {
     return index;
   };
 
-  create = (customerDto: CustomerDto): { customer: Customer } =>
-    this.customerRepository.create(customerDto);
+  create = async (customerDto: CustomerDto): Promise<{ customer: Customer }> => {
+    const people = await this.peopleService.create(customerDto);
+    
+    const customer = this.customerRepository.create(customerDto);
+    return customer;
+  }
 
   get = (id: string): { customer: Customer } => this.customerRepository.get(id);
 

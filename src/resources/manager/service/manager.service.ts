@@ -45,10 +45,10 @@ export class ManagerService {
     return response;
   }
 
-  createCustomer(managerId: string, customerDto: CustomerDto) {
+  createCustomer = async (managerId: string, customerDto: CustomerDto) => {
     this.validateManager(managerId);
 
-    const response = this.customerService.create({
+    const response = await this.customerService.create({
       ...customerDto,
       managerId,
     });

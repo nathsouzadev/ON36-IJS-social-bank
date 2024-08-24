@@ -5,6 +5,7 @@ import { randomUUID } from 'crypto';
 import { CustomerRepository } from '../repository/customer.repository';
 import { AccountType } from '../../../resources/accounts/dto/create-account.dto';
 import { PeopleService } from '../../../resources/people/people.service';
+import { People } from '../../../resources/people/entities/person.entity';
 
 describe('CustomerService', () => {
   let service: CustomerService;
@@ -37,7 +38,7 @@ describe('CustomerService', () => {
           useValue: {
             create: jest.fn(),
           },
-        }
+        },
       ],
     }).compile();
 
@@ -47,7 +48,7 @@ describe('CustomerService', () => {
     mockPeopleService = module.get<PeopleService>(PeopleService);
   });
 
-  it('should be create a customer', () => {
+  it('should be create a customer', async () => {
     const mockCustomerId = randomUUID();
     const mockManagerId = randomUUID();
     const mockCustomerDto = {
@@ -60,6 +61,11 @@ describe('CustomerService', () => {
       managerId: mockManagerId,
     };
 
+    const mockPeople = new People(mockCustomerDto);
+
+    jest
+      .spyOn(mockPeopleService, 'create')
+      .mockImplementation(() => Promise.resolve(mockPeople));
     jest.spyOn(mockCustomerRepository, 'create').mockReturnValue({
       customer: {
         id: mockCustomerId,
@@ -72,7 +78,8 @@ describe('CustomerService', () => {
       },
     });
 
-    const response = service.create(mockCustomerDto);
+    const response = await service.create(mockCustomerDto);
+    expect(mockPeopleService.create).toHaveBeenCalledWith(mockCustomerDto);
     expect(mockCustomerRepository.create).toHaveBeenCalledWith(mockCustomerDto);
     expect(response).toMatchObject({
       customer: {

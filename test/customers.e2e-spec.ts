@@ -53,6 +53,10 @@ describe('customer e2e', () => {
             managerId: expect.any(String),
           },
         });
+
+        await dataSource.query(
+          `DELETE FROM people WHERE email='ada@idiomaparatodos.com.br'`,
+        );
       });
   });
 

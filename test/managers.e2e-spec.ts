@@ -31,7 +31,7 @@ describe('manager e2e', () => {
         city: 'White Sulphur',
         phoneNumber: '5511880881234',
         cpf: '12345678901',
-        birthdaydate: '1918-08-26',
+        birthdate: '1918-08-26',
       })
       .expect(201)
       .then(async (response) => {
@@ -63,7 +63,7 @@ describe('manager e2e', () => {
         city: 'Hampton',
         phoneNumber: '5511880881234',
         cpf: '12345678901',
-        birthdaydate: '1921-04-09',
+        birthdate: '1921-04-09',
       })
       .expect(201)
       .then(async (response) => {
@@ -82,6 +82,10 @@ describe('manager e2e', () => {
             managerId: '76a2237f-1ddc-4aa3-9db7-66f7518b8f28',
           },
         });
+
+        await dataSource.query(
+          `DELETE FROM people WHERE email='may@idiomaparatodos.com.br'`,
+        );
       });
   });
 

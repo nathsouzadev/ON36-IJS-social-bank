@@ -1,7 +1,7 @@
 import { randomUUID } from 'crypto';
-import { CreatePersonDto } from '../../../resources/people/dto/create-person.dto';
-import { Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
+@Entity('people')
 export class People {
   @PrimaryGeneratedColumn('uuid')
   id: string = randomUUID();
@@ -24,12 +24,19 @@ export class People {
   @Column({ nullable: false })
   birthdate: string;
 
-  constructor(data: CreatePersonDto) {
-    this.name = data.name;
-    this.email = data.email;
-    this.city = data.city;
-    this.phoneNumber = data.phoneNumber;
-    this.cpf = data.cpf;
-    this.birthdate = data.birthdate;
+  constructor(
+    name: string,
+    email: string,
+    city: string,
+    phoneNumber: string,
+    cpf: string,
+    birthdate: string,
+  ) {
+    this.name = name;
+    this.email = email;
+    this.city = city;
+    this.phoneNumber = phoneNumber;
+    this.cpf = cpf;
+    this.birthdate = birthdate;
   }
 }
