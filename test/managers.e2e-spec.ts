@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
+import dataSource from '../src/config/db/dataSource';
 
 describe('manager e2e', () => {
   let app: INestApplication;
@@ -13,6 +14,12 @@ describe('manager e2e', () => {
 
     app = moduleFixture.createNestApplication();
     await app.init();
+    await dataSource.initialize();
+  });
+
+  afterEach(async () => {
+    await dataSource.destroy();
+    await app.close();
   });
 
   it('should create manager', async () => {

@@ -3,6 +3,7 @@ import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
 import * as nock from 'nock';
+import dataSource from '../src/config/db/dataSource';
 
 describe('accounts e2e', () => {
   let app: INestApplication;
@@ -14,6 +15,12 @@ describe('accounts e2e', () => {
 
     app = moduleFixture.createNestApplication();
     await app.init();
+    await dataSource.initialize();
+  });
+
+  afterEach(async () => {
+    await dataSource.destroy();
+    await app.close();
   });
 
   it('should create savings account', async () => {
