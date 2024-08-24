@@ -18,7 +18,11 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --runInBand --config ./test/jest-e2e.json"
+    "test:e2e": "jest --runInBand --config ./test/jest-e2e.json",
+    "typeorm": "typeorm-ts-node-commonjs",
+    "migration:create": "npm run typeorm migration:create -n",
+    "migration:run": "npx typeorm-ts-node-commonjs migration:run -d src/config/dataSourceTest.ts",
+    "migration:revert": "npx typeorm-ts-node-commonjs migration:revert -d src/config/dataSourceTest.ts"
   },
   "dependencies": {
     "@atproto/api": "^0.12.28",
@@ -31,13 +35,16 @@
     "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/terminus": "^10.2.3",
+    "@nestjs/typeorm": "^10.0.2",
     "axios": "^1.7.3",
     "joi": "^17.13.3",
+    "pg": "^8.12.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^6.0.1",
     "rxjs": "^7.2.0",
     "svix": "^1.24.0",
-    "twitter-api-client": "^1.6.1"
+    "twitter-api-client": "^1.6.1",
+    "typeorm": "^0.3.20"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.4.2",

@@ -12,9 +12,12 @@ import { AccountsModule } from './resources/accounts/accounts.module';
 import { ManagerModule } from './resources/manager/manager.module';
 import { CardsModule } from './resources/cards/cards.module';
 import { BrasilModule } from './resources/brasil/brasil.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { typeOrmAsyncConfig } from './config/db/typeorm.config';
 
 @Module({
   imports: [
+    TypeOrmModule.forRootAsync(typeOrmAsyncConfig),
     ConfigModule.forRoot({
       isGlobal: true,
       validationSchema,
