@@ -6,6 +6,6 @@ export const peopleProviders = [
   PeopleService,
   {
     provide: PeopleRepository,
-    useClass: ORMPeopleRepository,
+    useClass: ORMPeopleRepository
   },
 ];

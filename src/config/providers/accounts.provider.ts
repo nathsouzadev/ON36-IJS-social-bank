@@ -1,11 +1,15 @@
+import { AccountRepository } from '../../resources/accounts/repository/account.repository';
 import { AccountsService } from '../../resources/accounts/accounts.service';
-import { AccountsRepository } from '../../resources/accounts/repository/accounts.repository';
-import { brasilProviders } from './brasil.provider';
+import { ORMAccountsRepository } from '../../resources/accounts/repository/typeorm/ormAccounts.repository';
 import { cardsProvider } from './cards.provider';
+import { purchaseProvider } from './purchase.provider';
 
 export const accountsProvider = [
   AccountsService,
-  AccountsRepository,
+  {
+    provide: AccountRepository,
+    useClass: ORMAccountsRepository,
+  },
   ...cardsProvider,
-  ...brasilProviders,
+  ...purchaseProvider
 ];

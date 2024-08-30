@@ -14,6 +14,7 @@ import { CardsModule } from './resources/cards/cards.module';
 import { BrasilModule } from './resources/brasil/brasil.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeOrmAsyncConfig } from './config/db/typeorm.config';
+import { PurchaseModule } from './resources/purchase/purchase.module';
 
 @Module({
   imports: [
@@ -30,7 +31,8 @@ import { typeOrmAsyncConfig } from './config/db/typeorm.config';
     AccountsModule,
     ManagerModule,
     CardsModule,
-    BrasilModule
+    BrasilModule,
+    PurchaseModule
   ],
 })
 export class AppModule implements NestModule {

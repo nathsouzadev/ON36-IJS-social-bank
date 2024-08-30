@@ -110,4 +110,9 @@ $ localhost:3005/api
 $ localhost:3005/api/health
 ```
 
+## Backlog
+
+[] Validar CNPJ para compras
+[] Implementar conta PJ [ref][https://github.com/nathsouzadev/ON36-IJS-social-bank/pull/20]
+
 #### Desenvolvido por Nathally Souza
